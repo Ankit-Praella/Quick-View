@@ -1,0 +1,15 @@
+{
+    "layout": false,
+    "wrapper": "main#product-quickshop-html",
+    "sections": {
+      "main": {
+        "type": "template-product-quickview",
+        "settings": {
+        }
+      }
+    },
+    "order": [
+      "main"
+    ]
+  }
+  

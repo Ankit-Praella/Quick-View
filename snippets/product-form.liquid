@@ -1,0 +1,83 @@
+<product-details>
+  {%- unless product.has_only_default_variant -%}
+    {%- for option in product.options_with_values -%}
+      {%- if section.settings.product_selector == 'radio' -%}
+        <fieldset id="ProductSelect-option-{{ forloop.index0 }}" name="{{ option.name | handleize }}">
+          <legend>
+            {{ option.name | escape }}
+          </legend>
+          {%- for value in option.values -%}
+            <!--
+              Check to see if there's a product size option.
+            -->
+            {%- assign variant_label_state = true -%}
+            
+            {%- if product.options.size == 1 -%}
+              {%- unless product.variants[forloop.index0].available -%}
+                {%- assign variant_label_state = false -%}
+              {%- endunless -%}
+            {%- endif -%}
+            
+            
+            <label for="ProductSelect-option-{{ option.name | handleize }}-{{ value | escape }}">
+              {{ value | escape }}
+            </label>
+          {%- endfor -%}
+        </fieldset>
+        {%- else -%}
+        <label for="ProductSelect-option-{{ forloop.index0 }}">
+          {{ option.name | escape }}
+        </label>
+        
+        <!-- master variant selector -->
+        <select select_variants product_id="{{ product.id }}" id="product-select" class="master-selector" name="id">
+          {% for variant in product.variants %}
+            <option
+              value="{{ variant.id }}"
+              variant-price="{{ variant.price | money }}"
+              variant-id="{{ variant.id }}"
+              compare-price="{{ variant.compare_at_price | money  }}"
+              variant-image ="{{ variant.image.src | img_url: 'master' }}"
+              variant_quantity = "{{variant.inventory_quantity}}"
+              {% if variant == product.selected_or_first_available_variant %}
+                selected="selected"
+              {% endif %}
+            >
+              {{ variant.title }}
+            </option>
+          {% endfor %}
+        </select>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endunless -%}
+  <div quantity-box data-qty-container class="input_box_quickview mb-4" data-qty-container>
+    <a class="counter_button" quantity-box="minus" data-qty-btn>-</a>
+    <input class="input_box_quickview" data-index="1" data-qty-input data-value type="number" value="1">
+    <a class="counter_button" quantity-box="increase" data-qty-btn>+</a>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex">
+      <button
+        id="add_cart"
+        addCart
+        product_id="{{ product.id }}"
+        class="btn btn-outline-dark btn-sm flex-grow-1"
+        type="submit"
+        name="add"
+        aria-label="{{ 'products.product.add_to_cart' | t | escape }}"
+        {% unless current_variant.available %}
+          disabled
+        {% endunless %}
+      >
+        <span class="add-text">
+          {%- if current_variant.available -%}
+            {{ 'products.product.add_to_cart' | t }}
+            {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </span>
+        <span id="spinner" class="spinner"></span>
+      </button>
+    </div>
+  </div>
+</product-details>
