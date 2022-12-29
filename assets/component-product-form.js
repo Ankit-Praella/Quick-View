@@ -320,7 +320,6 @@ class VariantSelects extends HTMLElement {
         const colorSwatches = colorSwatchContainer.querySelectorAll('.swatch');
         colorSwatches.forEach(swatch => {
           let colorHandle = swatch.querySelector('input[type="radio"]').dataset.handle;
-          console.log(colorHandle)
           let swatchStyle = Utility.getSwatchStyle(colorHandle);
           swatch.querySelector('.swatch-label').setAttribute('style', swatchStyle);
         });
