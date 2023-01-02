@@ -21,6 +21,7 @@
     "enable_newletter": false,
     "enable_custom_klaviyo": false,
     "enable_cart_notes": true,
+    "enable_cart_": true,
     "enable_shipping_bar": true,
     "free_shipping_txt": "Congratulations! You get free shipping.",
     "free_shipping_left": "You are ${addMoreForFreeShip} away from free shipping!",
